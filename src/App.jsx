@@ -23,7 +23,7 @@ useEffect(()=>{
 },[]);
   
   return !loading ? (
-    <div className='min-h-screen bg-slate-400 felx flex-wrap justify-between  '>
+    <div className='min-h-screen bg-base-100 shadow-md felx flex-wrap justify-between  '>
       <div className='w-full block'>
         <Header />
         <main>

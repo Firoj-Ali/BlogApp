@@ -112,59 +112,77 @@ export default function PostForm({ post }) {
 
     return (
         <>
-            <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-                <div className="w-2/3 px-2">
-                    <Input
-                        label="Title :"
-                        placeholder="Title"
-                        className="mb-4"
-                        {...register("title", { required: true })}
-                    />
-                    <Input
-                        label="Slug :"
-                        placeholder="Slug"
-                        className="mb-4"
-                        {...register("slug", { required: true })}
-                        onInput={(e) => {
-                            setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
-                        }}
-                    />
-                    <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
+        <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
+          <div className="w-2/3 px-2">
+            <label className="label">
+              <span className="label-text">Title :</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Title"
+              className="input input-bordered w-full mb-4"
+              {...register("title", { required: true })}
+            />
+            <label className="label">
+              <span className="label-text">Slug :</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Slug"
+              className="input input-bordered w-full mb-4"
+              {...register("slug", { required: true })}
+              onInput={(e) => {
+                setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
+              }}
+            />
+            <label className="label">
+              <span className="label-text">Content :</span>
+            </label>
+            <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
+          </div>
+      
+          <div className="w-1/3 px-2">
+            <label className="label">
+              <span className="label-text">Featured Image :</span>
+            </label>
+            <input
+              type="file"
+              className="file-input file-input-bordered w-full mb-4"
+              accept="image/png, image/jpg, image/jpeg, image/gif"
+              {...register("image", { required: !post })}
+            />
+            {loading ? (
+              <p>Loading image preview...</p>
+            ) : (
+              post?.featuredImage && (
+                <div className="w-full mb-4">
+                  <img
+                    src={service.getFilePreview(post.featuredImage)}
+                    alt={post.title}
+                    className="rounded-lg"
+                  />
                 </div>
-                <div className="w-1/3 px-2">
-                    <Input
-                        label="Featured Image :"
-                        type="file"
-                        className="mb-4"
-                        accept="image/png, image/jpg, image/jpeg, image/gif"
-                        {...register("image", { required: !post })}
-                    />
-                    {loading ? (
-                        <p>Loading image preview...</p>
-                    ) : (
-                        post?.featuredImage && (
-                            <div className="w-full mb-4">
-                                <img
-                                    src={service.getFilePreview(post.featuredImage)}
-                                    alt={post.title}
-                                    className="rounded-lg"
-                                />
-                            </div>
-                        )
-                    )}
-                    <Select
-                        options={["active", "inactive"]}
-                        label="Status"
-                        className="mb-4"
-                        {...register("status", { required: true })}
-                    />
-                    <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
-                        {post ? "Update" : "Submit"}
-                    </Button>
-                </div>
-            </form>
-
-
-        </>
+              )
+            )}
+            <label className="label">
+              <span className="label-text">Status :</span>
+            </label>
+            <select
+              className="select select-bordered w-full mb-4"
+              {...register("status", { required: true })}
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+            <button
+              type="submit"
+              className={`btn w-full ${post ? "btn-success" : "btn-primary"}`}
+            >
+              {post ? "Update" : "Submit"}
+            </button>
+          </div>
+        </form>
+      </>
+      
     )
 }

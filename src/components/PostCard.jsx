@@ -8,7 +8,7 @@ export default function PostCard({ $id, title, featuredImage }) {
     return (
         <>
             <Link to={`/post/${$id}`}>
-                <div className='w-full bg-gray-100 rounded-xl p-4'>
+            <div className="bg-gray-700 shadow-md p-4 rounded-lg">
                     <div className='w-full justify-center mb-4'>
                         <img src={service.getFilePreview(featuredImage)} alt={title} className='rounded-xl' />
                     </div>
